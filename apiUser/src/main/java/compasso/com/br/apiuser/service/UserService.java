@@ -22,14 +22,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final CepService cepService;
-    private final AddressMapper addressMapper;
     private final AddressService  addressService;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, CepService cepService, AddressMapper addressMapper, AddressService addressService) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, CepService cepService, AddressService addressService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.cepService = cepService;
-        this.addressMapper = addressMapper;
         this.addressService = addressService;
     }
 
@@ -48,8 +46,6 @@ public class UserService {
     @Transactional
     public void updatePassword(UserUpdatePasswordDto user) {
         User newUser = userRepository.findByUsername(user.getUsername());
-        System.out.println("Vendo o user: " + newUser);
-
         if (newUser == null) {
             throw new RuntimeException("User not found");
         }
