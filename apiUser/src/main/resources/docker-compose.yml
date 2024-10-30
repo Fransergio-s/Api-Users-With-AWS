@@ -4,13 +4,14 @@ services:
     image: postgres:latest
     container_name: postgres_container
     environment:
-      POSTGRES_USER: user1
-      POSTGRES_PASSWORD: user1
+      POSTGRES_USER: fran
+      POSTGRES_PASSWORD: 123
       POSTGRES_DB: user_db
     ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+
+  "5432:5432"
+volumes:
+  postgres_data:/var/lib/postgresql/data
 volumes:
   postgres_data:
     driver: local

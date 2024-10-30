@@ -15,10 +15,15 @@ public class UserMapper {
         return new UserResponseDto(
                 user.getUsername(), user.getEmail(), user.getAddress().getZipCode());
     }
-
+/*
     public User toUser(UserRequestDto userRequestDto) {
         return new User(
                 userRequestDto.getUsername(), passwordEncoder.encode(userRequestDto.getPassword()), userRequestDto.getEmail());
+    }
+*/
+    public User toUser(UserRequestDto userRequestDto) {
+        return new User(
+                userRequestDto.getUsername(), userRequestDto.getPassword(), userRequestDto.getEmail());
     }
 
 }
