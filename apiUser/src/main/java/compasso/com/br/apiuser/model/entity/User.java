@@ -24,7 +24,7 @@ public class User implements Serializable {
     private String password;
     private String email;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "address_zip_code")
     private Address address;
 

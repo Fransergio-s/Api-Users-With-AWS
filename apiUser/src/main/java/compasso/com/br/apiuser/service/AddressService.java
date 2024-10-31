@@ -1,13 +1,10 @@
 package compasso.com.br.apiuser.service;
 
-import compasso.com.br.apiuser.model.dto.AddressDto;
-import compasso.com.br.apiuser.model.dto.UserRequestDto;
-import compasso.com.br.apiuser.model.dto.UserResponseDto;
+import compasso.com.br.apiuser.exceptions.CreateAddressException;
+import compasso.com.br.apiuser.model.dto.AddressRequestDto;
 import compasso.com.br.apiuser.model.dto.mapper.AddressMapper;
 import compasso.com.br.apiuser.model.entity.Address;
-import compasso.com.br.apiuser.model.entity.User;
 import compasso.com.br.apiuser.repository.AddressRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +18,11 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
-    public Address create(AddressDto addressDto) {
-        return addressRepository.save(addressMapper.toAddress(addressDto));
+    public Address create(AddressRequestDto addressRequestDto) {
+        try {
+            return addressRepository.save(addressMapper.toAddress(addressRequestDto));
+        }catch (CreateAddressException e){
+            throw new CreateAddressException();
+        }
     }
 }

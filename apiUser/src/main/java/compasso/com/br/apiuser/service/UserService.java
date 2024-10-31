@@ -1,19 +1,15 @@
 package compasso.com.br.apiuser.service;
 
-import compasso.com.br.apiuser.model.dto.AddressDto;
+import compasso.com.br.apiuser.exceptions.*;
 import compasso.com.br.apiuser.model.dto.UserRequestDto;
 import compasso.com.br.apiuser.model.dto.UserResponseDto;
 import compasso.com.br.apiuser.model.dto.UserUpdatePasswordDto;
-import compasso.com.br.apiuser.model.dto.mapper.AddressMapper;
 import compasso.com.br.apiuser.model.dto.mapper.UserMapper;
 import compasso.com.br.apiuser.model.entity.Address;
 import compasso.com.br.apiuser.model.entity.User;
 import compasso.com.br.apiuser.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 
@@ -33,25 +29,37 @@ public class UserService {
 
 
     public UserResponseDto create(UserRequestDto user) {
-        System.out.println("Vendo o user: " + user);
-        Address address = addressService.create(
-                cepService.getAddressPerCep(user.getZipCode()));
+        try {
+            User test = userRepository.findByUsername(user.getUsername());
+            if (test != null) {
+                throw new UserAlreadyExistException("User already exist");
+            }
+            Address address = addressService.create(
+                    cepService.getAddressPerCep(user.getZipCode()));
 
-        User newUser = userMapper.toUser(user);
-        newUser.setAddress(address);
-        userRepository.save(newUser);
-        return userMapper.toResponseDto(newUser);
+            User newUser = userMapper.toUser(user);
+            newUser.setAddress(address);
+            userRepository.save(newUser);
+            return userMapper.toResponseDto(newUser);
+        }catch (UserCreateException e){
+            throw new UserCreateException();
+        }
     }
 
     @Transactional
     public void updatePassword(UserUpdatePasswordDto user) {
-        User newUser = userRepository.findByUsername(user.getUsername());
-        if (newUser == null) {
-            throw new RuntimeException("User not found");
+        try {
+            User newUser = userRepository.findByUsername(user.getUsername());
+            if (newUser == null) {
+                throw new UserNotFoundException("User not found");
+            }
+            if (!user.getOldPassword().equals(newUser.getPassword())) {
+                throw new UserPasswordNotMatch("Old password don't match");
+            }
+            newUser.setPassword(user.getNewPassword());
+            userRepository.save(newUser);
+        }catch (UserUpdateException e){
+            throw new UserUpdateException();
         }
-        if (!user.getOldPassword().equals(newUser.getPassword())) {
-            throw new RuntimeException("Old password don't match");
-        }
-        userRepository.save(newUser);
     }
 }

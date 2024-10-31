@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AddressDto {
+public class AddressRequestDto {
     @JsonProperty("cep")
     private String zipCode;
     @JsonProperty("logradouro")

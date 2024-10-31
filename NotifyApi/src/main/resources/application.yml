@@ -6,4 +6,9 @@ kafka:
     value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   data:
     mongodb:
-      uri: mongodb://root:root@mongo:27017/
+      host: mongo
+      port: 27017
+      database: notify
+
+    codec:
+      max-in-memory-size: 2MB

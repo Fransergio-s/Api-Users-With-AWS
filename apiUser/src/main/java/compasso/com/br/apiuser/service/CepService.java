@@ -1,8 +1,7 @@
 package compasso.com.br.apiuser.service;
 
-import compasso.com.br.apiuser.model.dto.AddressDto;
+import compasso.com.br.apiuser.model.dto.AddressRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -10,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CepService {
 
     @GetMapping("{cep}/json")
-    AddressDto getAddressPerCep(@PathVariable("cep") String cep);
+    AddressRequestDto getAddressPerCep(@PathVariable("cep") String cep);
 }

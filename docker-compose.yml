@@ -32,34 +32,17 @@ services:
       KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "notify-topic:3:1"  # Tópico para o notify
+      KAFKA_CREATE_TOPICS: "notify-topic:3:1"  # TÃ³pico para o notify
     networks:
       - kafka-net
     depends_on:
       - zookeeper
 
-  mongo:
-    image: mongo
-    container_name: mongo_apiuser
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
     ports:
-      - "27017:27017"  # Mapeando a porta
-  
-
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express_apiuser  # Novo nome para o container
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: root
-      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
-      ME_CONFIG_BASICAUTH: false
+      - "27017:27017"
 
 networks:
   kafka-net:

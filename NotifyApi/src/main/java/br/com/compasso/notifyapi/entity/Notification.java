@@ -9,7 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Document(collection = "notifications")
+@Document(collection = "notify")
 public class Notification {
+    @Id
+    private String id;
     private String message;
+
+    public Notification(String message) {
+        this.message = message;
+    }
 }

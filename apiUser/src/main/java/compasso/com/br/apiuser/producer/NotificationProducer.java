@@ -1,5 +1,6 @@
 package compasso.com.br.apiuser.producer;
 
+import compasso.com.br.apiuser.exceptions.SendMessageError;
 import org.springframework.stereotype.Service;
 import org.springframework.kafka.core.KafkaTemplate;
 
@@ -14,8 +15,12 @@ public class NotificationProducer {
     }
 
     public void sendNotification(String username, String operation) {
-        String message = String.format("User: %s, Operation: %s", username, operation);
-        kafkaTemplate.send("notify-topic", message);
+        try {
+            String message = String.format("User: %s, Operation: %s", username, operation);
+            kafkaTemplate.send("notify-topic", message);
+        }catch (SendMessageError e) {
+            throw new SendMessageError();
+        }
     }
 
 }
