@@ -1,3 +1,9 @@
+springdoc:
+  swagger-ui:
+    path: /notify-docs.html
+  api-docs:
+    path: /notify-docs
+  packages-to-scan: br.com.compasso.notifyapi.controller
 kafka:
   bootstrap-servers: localhost:9092
   consumer:

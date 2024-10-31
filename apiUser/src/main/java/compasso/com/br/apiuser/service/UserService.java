@@ -36,16 +36,16 @@ public class UserService {
 
     public UserResponseDto create(UserRequestDto user) {
         try {
-            Optional<User> test = userRepository.findByUsername(user.getUsername());
+            Optional<User> test = userRepository.findByUsername(user.username());
             if (test.isPresent()) {
                 throw new UserAlreadyExistException("User already exist");
             }
             Address address = addressService.create(
-                    cepService.getAddressPerCep(user.getZipCode()));
+                    cepService.getAddressPerCep(user.zipCode()));
 
             User newUser = userMapper.toUser(user);
             newUser.setAddress(address);
-            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            newUser.setPassword(passwordEncoder.encode(user.password()));
             userRepository.save(newUser);
             return userMapper.toResponseDto(newUser);
         }catch (UserCreateException e) {
@@ -56,14 +56,14 @@ public class UserService {
     @Transactional
     public void updatePassword(UserUpdatePasswordDto user) {
         try {
-            Optional<User> newUser = userRepository.findByUsername(user.getUsername());
+            Optional<User> newUser = userRepository.findByUsername(user.username());
             if (newUser.isEmpty()) {
                 throw new UserNotFoundException("User not found");
             }
-            if (passwordEncoder.matches(newUser.get().getPassword(),user.getOldPassword())){
+            if (passwordEncoder.matches(newUser.get().getPassword(),user.oldPassword())){
                 throw new UserPasswordNotMatch("Old password don't match");
             }
-            newUser.get().setPassword(passwordEncoder.encode(user.getNewPassword()));
+            newUser.get().setPassword(passwordEncoder.encode(user.newPassword()));
             userRepository.save(newUser.get());
         }catch (UserUpdateException e){
             throw new UserUpdateException();

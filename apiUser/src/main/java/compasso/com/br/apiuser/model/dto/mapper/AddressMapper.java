@@ -9,8 +9,8 @@ public class AddressMapper {
 
     public Address toAddress(AddressRequestDto addressRequestDto) {
         return new Address(
-                addressRequestDto.getZipCode(), addressRequestDto.getStreet(),
-                addressRequestDto.getComplement(), addressRequestDto.getNeighborhood(),
-                addressRequestDto.getCity(), addressRequestDto.getState());
+                addressRequestDto.zipCode(), addressRequestDto.street(),
+                addressRequestDto.complement(), addressRequestDto.neighborhood(),
+                addressRequestDto.city(), addressRequestDto.state());
     }
 }

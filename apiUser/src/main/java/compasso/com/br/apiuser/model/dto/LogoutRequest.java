@@ -1,8 +1,6 @@
 package compasso.com.br.apiuser.model.dto;
 
-
-public record LoginRequest(
+public record LogoutRequest(
         String username,
-        String password
-) {
-}
+        String token
+){}

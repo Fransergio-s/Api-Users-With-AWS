@@ -1,3 +1,9 @@
+springdoc:
+  swagger-ui:
+    path: /user-docs.html
+  api-docs:
+    path: /user-docs
+  packages-to-scan: compasso.com.br.apiuser.controller
 security:
   jwt:
     token:

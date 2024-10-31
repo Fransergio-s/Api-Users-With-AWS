@@ -5,14 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@ToString
-public class UserRequestDto {
 
-    private String username;
-    private String password;
-    private String email;
-    private String zipCode;
+public record UserRequestDto(
+        String username,
+        String password,
+        String email,
+        String zipCode) {
 }

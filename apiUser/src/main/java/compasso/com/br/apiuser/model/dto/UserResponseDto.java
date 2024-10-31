@@ -5,14 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@ToString
-public class UserResponseDto {
-
-    private String username;
-    private String email;
-    private String address;
-
+public record UserResponseDto(
+        String username,
+        String email,
+        String address
+) {
 }
