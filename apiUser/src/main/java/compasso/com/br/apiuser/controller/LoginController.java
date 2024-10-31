@@ -51,7 +51,6 @@ public class LoginController {
         notificationProducer.sendNotification(request.username(), "LOGIN");
         return ResponseEntity.ok().body(response);
     }
-/*
     @Operation(summary = "Delete a token based on a valid username and token",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Ok->Deleted token.",
@@ -64,12 +63,12 @@ public class LoginController {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = LoginResponse.class)))
             })
+
     @DeleteMapping("/logout")
     public ResponseEntity<Void> logout(@RequestBody LogoutRequest request) {
         log.warn(request.toString());
+        service.logout(request);
         notificationProducer.sendNotification(request.username(), "LOGOUT");
         return ResponseEntity.noContent().build();
     }
-
- */
 }

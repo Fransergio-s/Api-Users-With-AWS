@@ -47,7 +47,7 @@ public class UserService {
             newUser.setAddress(address);
             newUser.setPassword(passwordEncoder.encode(user.password()));
             userRepository.save(newUser);
-            return userMapper.toResponseDto(newUser);
+            return userMapper.toResponseDto(newUser,address);
         }catch (UserCreateException e) {
             throw new UserCreateException();
         }
