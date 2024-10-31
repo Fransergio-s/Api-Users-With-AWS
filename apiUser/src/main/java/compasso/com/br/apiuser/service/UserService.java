@@ -9,7 +9,10 @@ import compasso.com.br.apiuser.model.entity.Address;
 import compasso.com.br.apiuser.model.entity.User;
 import compasso.com.br.apiuser.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 
@@ -19,19 +22,22 @@ public class UserService {
     private final UserMapper userMapper;
     private final CepService cepService;
     private final AddressService  addressService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, CepService cepService, AddressService addressService) {
+
+    public UserService(UserRepository userRepository, UserMapper userMapper, CepService cepService, AddressService addressService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.cepService = cepService;
         this.addressService = addressService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     public UserResponseDto create(UserRequestDto user) {
         try {
-            User test = userRepository.findByUsername(user.getUsername());
-            if (test != null) {
+            Optional<User> test = userRepository.findByUsername(user.getUsername());
+            if (test.isPresent()) {
                 throw new UserAlreadyExistException("User already exist");
             }
             Address address = addressService.create(
@@ -39,9 +45,10 @@ public class UserService {
 
             User newUser = userMapper.toUser(user);
             newUser.setAddress(address);
+            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(newUser);
             return userMapper.toResponseDto(newUser);
-        }catch (UserCreateException e){
+        }catch (UserCreateException e) {
             throw new UserCreateException();
         }
     }
@@ -49,15 +56,15 @@ public class UserService {
     @Transactional
     public void updatePassword(UserUpdatePasswordDto user) {
         try {
-            User newUser = userRepository.findByUsername(user.getUsername());
-            if (newUser == null) {
+            Optional<User> newUser = userRepository.findByUsername(user.getUsername());
+            if (newUser.isEmpty()) {
                 throw new UserNotFoundException("User not found");
             }
-            if (!user.getOldPassword().equals(newUser.getPassword())) {
+            if (passwordEncoder.matches(newUser.get().getPassword(),user.getOldPassword())){
                 throw new UserPasswordNotMatch("Old password don't match");
             }
-            newUser.setPassword(user.getNewPassword());
-            userRepository.save(newUser);
+            newUser.get().setPassword(passwordEncoder.encode(user.getNewPassword()));
+            userRepository.save(newUser.get());
         }catch (UserUpdateException e){
             throw new UserUpdateException();
         }
