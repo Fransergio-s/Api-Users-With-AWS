@@ -55,11 +55,4 @@ public class LoginService {
         tokenRepository.save(userToken);
         return new LoginResponse(user.getUsername(), token);
     }
-
-    public void logout(LogoutRequest request) {
-        User user = userRepository
-                .findByUsername(request.username())
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found."));
-        tokenRepository.deleteAllTokensByUserId(user.getId());
-    }
 }

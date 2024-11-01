@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.com.compasso</groupId>
-    <artifactId>NotifyApi</artifactId>
+    <artifactId>notifyApi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>NotifyApi</name>
-    <description>NotifyApi</description>
+    <name>notifyApi</name>
+    <description>notifyApi</description>
     <url/>
     <licenses>
         <license/>

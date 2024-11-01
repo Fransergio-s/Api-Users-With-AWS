@@ -35,4 +35,3 @@ kafka:
     auto-offset-reset: latest
 server:
   port: 8090
-

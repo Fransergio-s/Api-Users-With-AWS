@@ -10,6 +10,8 @@ services:
       POSTGRES_DB: user_db
     ports:
       - "5432:5432"
+    networks:
+      - api-net
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -19,7 +21,7 @@ services:
     ports:
       - "2181:2181"
     networks:
-      - kafka-net
+      - api-net
 
   kafka:
     image: wurstmeister/kafka:latest
@@ -34,18 +36,63 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "notify-topic:3:1"  # TÃ³pico para o notify
     networks:
-      - kafka-net
+      - api-net
     depends_on:
       - zookeeper
 
   mongodb:
     image: mongo:latest
     container_name: "mongodb"
+    environment:
+      MONGO_INITDB_DATABASE: notify
     ports:
       - "27017:27017"
+    networks:
+      - api-net
+
+  apiuser:
+    container_name: user_app
+    build:
+      context: ./apiUser
+      dockerfile: Dockerfile
+    ports:
+      - '8090:8090'
+    networks:
+      - api-net
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/user_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SECURITY_JWT_TOKEN_SECRET_KEY=h0cRA4Zv4hw7v4Q0kMDX730Nhr0cSDcxYqUmiogpZcrGw2wQKcuWALFrXE7jPWBP
+      - SECURITY_JWT_TOKEN_SECRET_KEY
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9093
+      - SPRING_KAFKA_PRODUCER_KEY-SERIALIZER=org.apache.kafka.common.serialization.StringSerializer
+      - SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER=org.apache.kafka.common.serialization.StringSerializer
+      - KAFKA_TOPICS=notify-topic
+    depends_on:
+      - postgres
+
+  notifyapi:
+    container_name: notify_app
+    build:
+      context: ./notifyApi
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    networks:
+      - api-net
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/notify
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9093
+      - SPRING_KAFKA_CONSUMER_GROUP-ID=notify_group
+      - SPRING_KAFKA_CONSUMER_KEY-DESERIALIZER=org.apache.kafka.common.serialization.StringDeserializer
+      - SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER=org.apache.kafka.common.serialization.StringDeserializer
+    depends_on:
+      - mongodb
+
 
 networks:
-  kafka-net:
+  api-net:
     driver: bridge
 
 volumes:
