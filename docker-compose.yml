@@ -51,6 +51,7 @@ services:
       - api-net
 
   apiuser:
+    image: fransmorato/apiuser
     container_name: user_app
     build:
       context: ./apiUser
@@ -73,6 +74,7 @@ services:
       - postgres
 
   notifyapi:
+    image: fransmorato/notifyapi
     container_name: notify_app
     build:
       context: ./notifyApi
