@@ -8,6 +8,7 @@ import compasso.com.br.apiuser.model.dto.mapper.UserMapper;
 import compasso.com.br.apiuser.model.entity.Address;
 import compasso.com.br.apiuser.model.entity.User;
 import compasso.com.br.apiuser.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,9 @@ public class UserService {
 
             User newUser = userMapper.toUser(user);
             newUser.setAddress(address);
+            if (newUser.getPassword() == null) {
+                throw new PasswordNullException("Null password is not valid");
+            }
             newUser.setPassword(passwordEncoder.encode(user.password()));
             userRepository.save(newUser);
             return userMapper.toResponseDto(newUser,address);
@@ -63,8 +67,12 @@ public class UserService {
             if (passwordEncoder.matches(newUser.get().getPassword(),user.oldPassword())){
                 throw new UserPasswordNotMatch("Old password don't match");
             }
-            newUser.get().setPassword(passwordEncoder.encode(user.newPassword()));
-            userRepository.save(newUser.get());
+            if (user.newPassword() != null) {
+                if(!user.newPassword().equals(user.oldPassword())) {
+                    newUser.get().setPassword(passwordEncoder.encode(user.newPassword()));
+                    userRepository.save(newUser.get());
+                }
+            }
         }catch (UserUpdateException e){
             throw new UserUpdateException();
         }

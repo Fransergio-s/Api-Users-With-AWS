@@ -36,7 +36,13 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/api/users/register").permitAll();
+                    authorize.requestMatchers("/api/update-password").authenticated();
                     authorize.requestMatchers("/login").permitAll();
+                    authorize.requestMatchers("/swagger-ui/**").permitAll();
+                    authorize.requestMatchers("/v3/api-docs/**").permitAll();
+                    authorize.requestMatchers("/swagger-ui.html").permitAll();
+                    authorize.requestMatchers("/user-docs.html").permitAll();
+                    authorize.requestMatchers("/user-docs/**").permitAll();
                     authorize.requestMatchers("/logout").authenticated();
                     authorize.anyRequest().authenticated();
                 })
@@ -75,5 +81,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
-
