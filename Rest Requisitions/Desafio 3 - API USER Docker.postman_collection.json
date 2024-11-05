@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "c30ccbaa-0972-45de-a38c-93014708652a",
+		"name": "Desafio 3 - API USER Docker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37919317"
+	},
+	"item": [
+		{
+			"name": "ApiUser",
+			"item": [
+				{
+					"name": "FIND ADDRESS BY CEP VIACEP",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://viacep.com.br/ws/14401080/json",
+							"protocol": "https",
+							"host": [
+								"viacep",
+								"com",
+								"br"
+							],
+							"path": [
+								"ws",
+								"14401080",
+								"json"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "INSERT USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"frans\",\r\n    \"password\": \"1234\",\r\n    \"email\": \"frans@gmail.com\",\r\n    \"zipCode\": \"14401080\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API USERS}}/api/users/register",
+							"host": [
+								"{{API USERS}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PASSWORD",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJub3ZvIiwiaWF0IjoxNzMwNDA5ODc1LCJleHAiOjE3MzA0MTM0NzV9.BbZVBMvfMKKQR5k5vbwn1hZhYsh_rBZjhJFevdRtln4Arua0eZstXEAtDyzYyTcZ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"novo\",\r\n    \"oldPassword\": \"1234\",\r\n    \"newPassword\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API USERS}}/api/users/update-password",
+							"host": [
+								"{{API USERS}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"frans\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API USERS}}/login",
+							"host": [
+								"{{API USERS}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NotifyApi",
+			"item": [
+				{
+					"name": "GET LOG",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{NOTIFY API}}/api/notification",
+							"host": [
+								"{{NOTIFY API}}"
+							],
+							"path": [
+								"api",
+								"notification"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

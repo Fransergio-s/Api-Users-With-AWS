@@ -5,13 +5,11 @@ import compasso.com.br.apiuser.exceptions.UserLoginException;
 import compasso.com.br.apiuser.jwt.JwtService;
 import compasso.com.br.apiuser.model.dto.LoginRequest;
 import compasso.com.br.apiuser.model.dto.LoginResponse;
-import compasso.com.br.apiuser.model.dto.LogoutRequest;
 import compasso.com.br.apiuser.model.entity.CustomUserDetails;
 import compasso.com.br.apiuser.model.entity.User;
 import compasso.com.br.apiuser.model.entity.UserJwtToken;
 import compasso.com.br.apiuser.repository.UserRepository;
 import compasso.com.br.apiuser.repository.UserTokenRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,13 +64,5 @@ public class LoginService {
         }
     }
 
-//
-//    @Transactional
-//    public void logout(LogoutRequest request, HttpServletRequest header) {
-//        User user = userRepository
-//                .findByUsername(request.username())
-//                .orElseThrow(() -> new UsernameNotFoundException("Username not found."));
-//        tokenRepository.invalidateTokensByUserId(user.getId());
-//    }
 
 }

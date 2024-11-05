@@ -3,7 +3,6 @@ package compasso.com.br.apiuser.controller;
 
 import compasso.com.br.apiuser.model.dto.LoginRequest;
 import compasso.com.br.apiuser.model.dto.LoginResponse;
-import compasso.com.br.apiuser.model.dto.LogoutRequest;
 import compasso.com.br.apiuser.producer.NotificationProducer;
 import compasso.com.br.apiuser.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,11 +11,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,11 +51,5 @@ public class LoginController {
         notificationProducer.sendNotification(request.username(), "LOGIN");
         return ResponseEntity.ok().body(response);
     }
-//
-//    @DeleteMapping("/user-logout")
-//    public ResponseEntity<Void> logout(@RequestBody LogoutRequest request, HttpServletRequest header) {
-//        service.logout(request,header);
-//        notificationProducer.sendNotification(request.username(), "LOGOUT");
-//        return ResponseEntity.noContent().build();
-//    }
+
 }

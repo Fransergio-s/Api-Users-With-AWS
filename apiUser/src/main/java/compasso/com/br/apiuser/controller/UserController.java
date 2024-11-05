@@ -56,6 +56,8 @@ public class UserController {
                     @ApiResponse(responseCode = "204", description = "Ok->Updated ticket.",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = UserResponseDto.class))),
+                    @ApiResponse(responseCode = "403", description = "Unauthorized",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
                     @ApiResponse(responseCode = "404", description = "Not Found: User not found.",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
                     @ApiResponse(responseCode = "500", description = "Internal Server Error: Unexpected error occurred.",
