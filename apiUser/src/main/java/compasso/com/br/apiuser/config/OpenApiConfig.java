@@ -1,4 +1,4 @@
-/*
+
 package compasso.com.br.apiuser.config;
 
 import org.springframework.context.annotation.Bean;
@@ -16,10 +16,10 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("User API developed for compass.uol challenge 3 ")
-                        .version("v1")
+                        .version("v3")
                         .description("User API developed for compass.uol challenge 3 ")
                 );
     }
 
 }
-*/
+

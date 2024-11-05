@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@SecurityRequirement(name = "tokenAuth")
 @Tag(name = "Login", description = "Log in to the application based on a valid username and password")
 @RestController
 @Slf4j
@@ -42,10 +44,12 @@ public class LoginController {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = LoginResponse.class)))
             })
+    @SecurityRequirement(name = "")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request){
         LoginResponse response = service.login(request);
         notificationProducer.sendNotification(request.username(), "LOGIN");
         return ResponseEntity.ok().body(response);
     }
+
 }
