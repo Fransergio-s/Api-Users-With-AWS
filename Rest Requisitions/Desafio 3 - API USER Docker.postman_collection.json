@@ -46,9 +46,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{API USERS}}/api/users/register",
+							"raw": "{{API USERS DOCKER}}/api/users/register",
 							"host": [
-								"{{API USERS}}"
+								"{{API USERS DOCKER}}"
 							],
 							"path": [
 								"api",
@@ -112,9 +112,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{API USERS}}/login",
+							"raw": "{{API USERS DOCKER}}/login",
 							"host": [
-								"{{API USERS}}"
+								"{{API USERS DOCKER}}"
 							],
 							"path": [
 								"login"
@@ -146,9 +146,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{NOTIFY API}}/api/notification",
+							"raw": "{{API NOTIFY DOCKER}}/api/notification",
 							"host": [
-								"{{NOTIFY API}}"
+								"{{API NOTIFY DOCKER}}"
 							],
 							"path": [
 								"api",

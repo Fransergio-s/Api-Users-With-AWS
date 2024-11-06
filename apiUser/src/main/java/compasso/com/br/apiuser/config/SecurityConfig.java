@@ -1,7 +1,7 @@
 package compasso.com.br.apiuser.config;
 
 import compasso.com.br.apiuser.jwt.JwtFilter;
-import compasso.com.br.apiuser.service.CustomUserDetailsService;
+import compasso.com.br.apiuser.service.impl.CustomUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
-    private final CustomUserDetailsService userDetailsService;
+    private final CustomUserDetailsServiceImpl userDetailsService;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,7 +43,6 @@ public class SecurityConfig {
                     authorize.requestMatchers("/swagger-ui.html").permitAll();
                     authorize.requestMatchers("/user-docs.html").permitAll();
                     authorize.requestMatchers("/user-docs/**").permitAll();
-                    authorize.requestMatchers("/logout").authenticated();
                     authorize.anyRequest().authenticated();
                 })
                 .sessionManagement(session ->

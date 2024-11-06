@@ -1,4 +1,4 @@
-package compasso.com.br.apiuser.service;
+package compasso.com.br.apiuser.service.impl;
 
 
 import compasso.com.br.apiuser.repository.UserRepository;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 

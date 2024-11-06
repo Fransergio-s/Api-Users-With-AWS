@@ -4,32 +4,21 @@ import compasso.com.br.apiuser.model.dto.LoginResponse;
 import compasso.com.br.apiuser.model.dto.UserRequestDto;
 import compasso.com.br.apiuser.model.dto.UserResponseDto;
 import compasso.com.br.apiuser.model.dto.UserUpdatePasswordDto;
-import compasso.com.br.apiuser.producer.NotificationProducer;
-import compasso.com.br.apiuser.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
-@SecurityRequirement(name = "tokenAuth")
 @Tag(name = "User", description = "Responsible for creating and updating a user")
+@SecurityRequirement(name = "tokenAuth")
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
-
-    private final UserService userService;
-    private final NotificationProducer notificationProducer;
-
-    public UserController(UserService userService, NotificationProducer notificationProducer) {
-        this.userService = userService;
-        this.notificationProducer = notificationProducer;
-    }
+public interface UserController {
 
     @Operation(summary = "Create a user based on a username, password, email and zip code",
             responses = {
@@ -45,11 +34,7 @@ public class UserController {
             })
     @SecurityRequirement(name = "")
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDto user) {
-        UserResponseDto response = userService.create(user);
-        notificationProducer.sendNotification(user.username(), "REGISTER");
-        return ResponseEntity.ok().body(response);
-    }
+    ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDto user);
 
     @Operation(summary = "Updating a user based on username. Validating whether the old password is correct.",
             responses = {
@@ -64,10 +49,5 @@ public class UserController {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
             })
     @PutMapping("/update-password")
-    public ResponseEntity<UserResponseDto> update(@RequestBody UserUpdatePasswordDto user) {
-        userService.updatePassword(user);
-        notificationProducer.sendNotification(user.username(), "UPDATE_PASSWORD");
-        return ResponseEntity.noContent().build();
-    }
-
+    ResponseEntity<UserResponseDto> update(@RequestBody UserUpdatePasswordDto user);
 }
